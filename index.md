@@ -54,7 +54,7 @@ _styles: >
 
 `Last Update: Feb 9th 2026`
 
-## <mark style='background-color: #fff5b1'> Introduction </mark> {#introduction}
+## Introduction
 
 Your introduction goes here. You can use **bold**, *italic*, `inline code`, and [links](https://example.com).
 
@@ -68,7 +68,7 @@ $$
 
 > Blockquotes look like this.
 
-## <mark style='background-color: #fff5b1'> Background </mark> {#background}
+## Background
 
 ### Synthetic Data
 
@@ -83,7 +83,7 @@ Content about data efficiency...
 *Fig. Your figure caption. Source from [Paper Title](https://arxiv.org/abs/XXXX.XXXXX)*
 -->
 
-## <mark style='background-color: #fff5b1'> Methods </mark> {#methods}
+## Methods
 
 You can include tables:
 
@@ -105,19 +105,19 @@ model = nn.Transformer(
 )
 ```
 
-## <mark style='background-color: #fff5b1'> Results </mark> {#results}
+## Results
 
 Your results here...
 
-## <mark style='background-color: #fff5b1'> Discussion </mark> {#discussion}
+## Discussion
 
 Your discussion here...
 
-## <mark style='background-color: #fff5b1'> Conclusion </mark> {#conclusion}
+## Conclusion
 
 Your conclusion here...
 
-## <mark style='background-color: #fff5b1'> References </mark> {#references}
+## References
 
 * [Paper 1 Title](https://arxiv.org/abs/XXXX.XXXXX)
 * [Paper 2 Title](https://arxiv.org/abs/XXXX.XXXXX)

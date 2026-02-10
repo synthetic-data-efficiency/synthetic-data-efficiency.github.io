@@ -33,16 +33,6 @@
   }
 }
 
-.header-background .img {
-  background-image: url("../img/scaling_law_icon.png");
-  background-repeat: no-repeat;
-  background-size: 400px;
-  background-position: center bottom;
-  height: 12em;
-  margin-bottom: 0em;
-  margin-top: -2.7em;  
-}
-
 html[data-theme='dark'] {
   --global-bg-color: #{$grey-color-dark};
   --global-code-bg-color: #{$code-bg-color-dark};
@@ -72,29 +62,4 @@ html[data-theme='dark'] {
   .repo-img-dark {
     display: block;
   }
-
-.header-background .img {
-  background-image: url("../img/scaling_law_icon.png");
-  background-repeat: no-repeat;
-  background-size: 400px;
-  background-position: center bottom;
-  height: 12em;
-  margin-bottom: 0em;
-  margin-top: -2.7em;  
-  // filter: invert(89%);
-}
-
-
-
-
-  // .header-background .img {
-  //   background-image: url("../img/score_contour.jpg");
-  //   background-repeat: no-repeat;
-  //   background-size: cover;
-  //   background-position: center bottom;
-  //   height: 15em;
-  //   margin-bottom: 2em;
-  //   margin-top: -2.7em;
-  //   filter: invert(89%);
-  // }
 }

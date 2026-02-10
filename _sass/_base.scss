@@ -138,8 +138,8 @@ blockquote {
 
 .navbar {
   box-shadow: none;
-  border-bottom: 1px solid var(--global-divider-color);
-  background-color: var(--global-bg-color);
+  border-bottom: none;
+  background-color: #303030;
   opacity: 0.95;
 }
 .navbar .dropdown-menu {
@@ -169,20 +169,20 @@ blockquote {
     }
   }
   .navbar-brand {
-    color: var(--global-text-color);
+    color: #ffffff;
   }
   .navbar-nav .nav-item .nav-link {
-    color: var(--global-text-color);
+    color: rgba(255, 255, 255, 0.8);
     &:hover {
-      color: var(--global-hover-color);
+      color: #ffffff;
     }
   }
   .navbar-nav .nav-item.active>.nav-link {
       background-color: inherit;
       font-weight: bolder;
-      color: var(--global-theme-color);
+      color: #ffffff;
       &:hover {
-        color: var(--global-hover-color);
+        color: #ffffff;
       }
   }
   .navbar-brand.social {
@@ -191,7 +191,7 @@ blockquote {
     font-size: 1.7rem;
     a {
       i::before {
-        color: var(--global-text-color);
+        color: #ffffff;
         transition-property: all 0.2s ease-in-out;
       }
       &:hover {
@@ -208,7 +208,7 @@ blockquote {
     display: block;
     width: 22px;
     height: 2px;
-    background-color: var(--global-text-color);
+    background-color: #ffffff;
     border-radius: 1px;
     margin-bottom: 4px;
     transition: all 0.2s;
@@ -621,13 +621,13 @@ code {
 
 // Inline code styling (not inside pre blocks)
 :not(pre) > code {
-  padding: .25em .5em;
+  padding: .2em .4em;
   font-size: 85%;
-  color: #0e32ef;
-  background-color: #f3f4f5;
+  color: #476582;
+  background-color: #f6f6f6;
   border-radius: 3px;
-  font-weight: bold;
-  text-decoration: underline;
+  font-weight: normal;
+  text-decoration: none;
 }
 
 
