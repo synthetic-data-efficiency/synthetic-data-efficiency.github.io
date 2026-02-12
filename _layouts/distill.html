@@ -15,7 +15,8 @@
       return [lname, fnames];
     }
 
-    let authors = Array.from(document.getElementsByClassName("author")).map(getText).map(trimIt).map(splitNameAndFamilyName);
+    let stripAnnotations = (e) => e.replace(/\*/g, '');
+    let authors = Array.from(document.getElementsByClassName("author")).map(getText).map(trimIt).map(stripAnnotations).map(splitNameAndFamilyName);
     let firstAuthorLName = authors[0][0];
     let affiliationElements = Array.from(document.getElementsByClassName("affiliation")).filter(e => e.nodeName === "P").map(getText).map(trimIt);
 

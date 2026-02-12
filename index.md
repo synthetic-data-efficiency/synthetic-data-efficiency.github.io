@@ -2,30 +2,41 @@
 layout: distill
 title: "Synthetic Data Efficiency"
 # permalink: /main/
-date: 2026-02-09
-description: "Your article description goes here. This will appear as the subtitle on the page and in search engine results."
+date: 2026-02-11
+description: "synthetic data tutorial for data efficiency."
 future: true
 htmlwidgets: true
 hidden: false
 
 authors:
-  - name: Konwoo Kim
-    url: "https://github.com/konwoo"
-    # affiliations:
-    #   name: Your Affiliation
-    #   url: "https://affiliation-url.com"
+  - name: Konwoo Kim*
+    url: "https://konwoo.kim/"
+  - name: Suhas Kotha*
+    url: "https://kothasuhas.github.io/index.html"
+  - name: Advisors
 
 # Table of contents — update these to match your ## and ### headings
 toc:
   - name: Introduction
-  - name: Background
+  - name: Setting
     subsections:
+      - name: Data Efficiency Setup
       - name: Synthetic Data
-      - name: Data Efficiency
-  - name: Methods
-  - name: Results
-  - name: Discussion
+  - name: Synth data science (or How to WRAP)
+    subsections:
+      - name: Fix a big pool of synth data
+      - name: Scaling with synthetic copies
+  - name: Synth data should use up your context
+    subsections:
+      - name: How to sort synthetic data
+      - name: Benefit of sorting
+      - name: Cot data
+  - name: Synth data is different from self-distill
+    subsections:
+      - name: WRAP vs self-distill
+      - name: Composition with Ensembling
   - name: Conclusion
+  - name: Related Work
   - name: References
 
 # Additional styles for the article
@@ -52,72 +63,94 @@ _styles: >
   }
 ---
 
-`Last Update: Feb 9th 2026`
 
 ## Introduction
 
-Your introduction goes here. You can use **bold**, *italic*, `inline code`, and [links](https://example.com).
+* Data efficiency is a big problem because compute grows faster than data 
+* People believe synthetic data is one solution for data efficiency 
+  * Synthetic data is increasingly used for pre-training models: x, y, z
+  * Synthetic data generally observed to help on downstream tasks 
+* In this post, we take a controlled data efficiency setup and carefully investigate how to best use synthetic data. We prescribe how to train with synthetic data and several new properties of synthetic data 
+  * Synth data science 
+    * Synth data gives an iid val loss win 
+    * Synth data doesn’t increase the amount you can train on real data
+    * Synth data isn’t an infinite compute lever 
+      * Given a fixed amount of synth data, you will overfit 
+      * Too much synth data doesn’t help 
+  * Synth data should use up your context 
+    * Inspired by ICPT, we show that sorted WRAP is a free win for both iid val loss and arxiv (or some other long-context loss) over shuffled WRAP 
+    * We show some design decisions on how to sorting, mention epiplexity 
+    * We show that other kinds of synth data (cot) which naturally expand the document also benefit from this 
+  * Synth data is different from self-distill 
+    * In isolation, WRAP and self-distill have the same loss 
+    * Self-distill doesn’t compose with ensembling, as we expect from intuition, but WRAP does compose  
 
-You can write inline math like $$x^2 + y^2 = z^2$$ and display math:
 
-$$
-\begin{aligned}
-& L(\theta) = \mathbb{E}_{(x,y) \sim \mathcal{D}} \left[ \ell(f_\theta(x), y) \right]
-\end{aligned}
-$$
+## Setting 
 
-> Blockquotes look like this.
-
-## Background
+### Data Efficiency Setup
+  * 203M tokens of DCLM data, 1M tokens of iid val 
+  * 150M, 300M, 600M, 1.5B dense models like infinite compute with joint scaling 
+  * Convex tuning of lr, wd, epoch
+  * Arxiv loss for long-context proxy 
+  * Show recreated regularized model scaling plot here
+![regularized_scaling](/assets/img/regularized_scaling.png){: width="100%"}
 
 ### Synthetic Data
+  * Generated with Llama 3.1 8B instruct + tokasaurus, include prompts somewhere
+  * Mixing ratio between real : synth data 
+  * Amount of synth data (for rephrasing, number of copies per document) 
 
-Content about synthetic data...
+## Synth data science (or How to WRAP)
+### Fix a big pool of synth data
+  * Sweep real epoch (1,2,4,8,16,32)
+  * Ratio (0.5, 0.75, 0.9)
+  * wd (0.4, 0.8)
 
-### Data Efficiency
+Better than regularized, optimal real epochs is the same, kx more total tokens to train on, overfits with too high of a mixing ratio 
+![synth_data_science](/assets/img/synth_data_science_hypers.png){: width="100%"}
 
-Content about data efficiency...
+### Scaling with synthetic copies
+  * For each copy rate, search real data epoch count, ratio, wd 
 
-<!-- Example of how to add an image:
-![figure_name](/assets/img/your_figure.png){: width="100%"}
-*Fig. Your figure caption. Source from [Paper Title](https://arxiv.org/abs/XXXX.XXXXX)*
--->
+Can't scale synthetic copies infinitely (only show shuffled)
+![synth_data_copy_scaling](/assets/img/copy_scaling.png){: width="100%"}
 
-## Methods
 
-You can include tables:
+## Synth data should use up your context
+* Inspired by ICPT, we propose to put related synthetic data next to each other (sorting) 
 
-| Method | Dataset | Performance |
-|--------|---------|-------------|
-| Baseline | Real Data | 85.2 |
-| Ours | Synthetic + Real | 89.7 |
+### How to sort synthetic data
+* No real doc, real doc in the back, real doc in the back 
+* Real doc in the back is best, true for both 2 copies and 8 copies 
+* Related to epiplexity 
 
-And code blocks:
+![cpr2](/assets/img/cpr2.png){: width="100%"}
+![cpr8](/assets/img/cpr8.png){: width="100%"}
 
-```python
-import torch
-import torch.nn as nn
+### Benefit of sorting 
+Across synthetic copy scales, both losses, sorting > shuffled 
+![synth_data_copy_scaling](/assets/img/copy_scaling.png){: width="100%"}
 
-model = nn.Transformer(
-    d_model=512,
-    nhead=8,
-    num_encoder_layers=6,
-)
-```
+### Cot data
+We consider a different form of synthetic data that naturally expands the document. It's even better. 
+![cot_scaling](/assets/img/cot_scaling.png){: width="100%"}
 
-## Results
+## Synth data is different from self-distill 
 
-Your results here...
-
-## Discussion
-
-Your discussion here...
+### WRAP vs self-distill 
+They look the same in isolation. 
+![wrap_vs_sd](/assets/img/wrap_vs_sd.png){: width="100%"}
+### Composition with Ensembling
+We recreate ensembles.
+![ensemble_scaling](/assets/img/ensemble_scaling.png){: width="100%"}
+We find that WRAP composes with ensembles.
+![ensemble_scaling_wrap](/assets/img/ensemble_scaling_wrap.png){: width="100%"}
+We find self-distill doesn't compose with ensembling cause it's like a 2-ensemble.
+![ensemble_scaling_wrap_sd](/assets/img/ensemble_scaling_wrap_sd.png){: width="100%"}
 
 ## Conclusion
 
-Your conclusion here...
+## Related Work 
 
 ## References
-
-* [Paper 1 Title](https://arxiv.org/abs/XXXX.XXXXX)
-* [Paper 2 Title](https://arxiv.org/abs/XXXX.XXXXX)
